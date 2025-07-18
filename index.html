@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Celebración Élite - Alison "La Cuchusuma"</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;800&family=Sacramento&display=swap');
+        
+        :root {
+            --primary: #E11D74;
+            --secondary: #3A0CA3;
+            --accent: #F72585;
+            --dark: #14213D;
+            --light: #F8F9FA;
+            --gold: #FFD700;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #000;
+            color: var(--light);
+            min-height: 100vh;
+            overflow-x: hidden;
+            perspective: 1000px;
+        }
+        
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+            position: relative;
+            z-index: 10;
+            transform-style: preserve-3d;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 5rem;
+            position: relative;
+        }
+        
+        h1 {
+            font-family: 'Sacramento', cursive;
+            font-size: 6rem;
+            background: linear-gradient(45deg, var(--accent), var(--gold));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 20px rgba(231, 29, 116, 0.3);
+            animation: glow 2s infinite alternate;
+        }
+        
+        h2 {
+            font-size: 2rem;
+            font-weight: 300;
+            letter-spacing: 3px;
+            margin-bottom: 2rem;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        
+        .nickname {
+            font-family: 'Sacramento', cursive;
+            font-size: 3rem;
+            color: var(--gold);
+            display: block;
+            margin-top: -1rem;
+        }
+        
+        .hero-section {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 5rem 0;
+            flex-wrap: wrap;
+        }
+        
+        .photo-container {
+            width: 400px;
+            height: 400px;
+            border-radius: 50%;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 0 50px rgba(247, 37, 133, 0.5);
+            border: 5px solid rgba(255, 215, 0, 0.3);
+            transform-style: preserve-3d;
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .photo-container::before {
+            content: '';
+            position: absolute;
+            inset: -10px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--accent), var(--gold), var(--secondary));
+            z-index: -1;
+            animation: rotate 15s linear infinite;
+            opacity: 0.7;
+        }
+        
+        .photo-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: all 0.5s;
+        }
+        
+        .message-box {
+            flex: 1;
+            min-width: 300px;
+            padding: 3rem;
+            background: rgba(20, 33, 61, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            margin-left: 3rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            border: 1px solid rgba(247, 37, 133, 0.2);
+            transform-style: preserve-3d;
+            transition: all 0.5s;
+        }
+        
+        .message-box:hover {
+            transform: translateY(-10px) rotateX(5deg);
+            box-shadow: 0 15px 40px rgba(247, 37, 133, 0.4);
+        }
+        
+        .message-box::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            border-radius: 22px;
+            background: linear-gradient(45deg, var(--accent), var(--gold), var(--secondary));
+            z-index: -1;
+            animation: rotate 10s linear infinite;
+            opacity: 0.5;
+        }
+        
+        p {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+        
+        .signature {
+            font-family: 'Sacramento', cursive;
+            font-size: 2.5rem;
+            color: var(--gold);
+            text-align: right;
+            margin-top: 2rem;
+            display: inline-block;
+        }
+        
+        .floating-elements {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 5;
+            overflow: hidden;
+        }
+        
+        .floating-element {
+            position: absolute;
+            opacity: 0.8;
+            animation: floatAround 20s infinite linear;
+            filter: drop-shadow(0 0 5px rgba(255, 215, 0, 0.7));
+        }
+        
+        .interactive-btn {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            background: linear-gradient(45deg, var(--accent), var(--primary));
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 3rem;
+            box-shadow: 0 5px 15px rgba(231, 29, 116, 0.4);
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .interactive-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(231, 29, 116, 0.6);
+        }
+        
+        .interactive-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: all 0.5s;
+        }
+        
+        .interactive-btn:hover::before {
+            left: 100%;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-40px) rotate(2deg); }
+        }
+        
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        @keyframes glow {
+            0% { text-shadow: 0 0 10px rgba(231, 29, 116, 0.3); }
+            100% { text-shadow: 0 0 20px rgba(231, 29, 116, 0.6); }
+        }
+        
+        @keyframes floatAround {
+            0% { transform: translate(0, 0) rotate(0deg) scale(1); }
+            25% { transform: translate(50px, 100px) rotate(90deg) scale(1.1); }
+            50% { transform: translate(100px, 50px) rotate(180deg) scale(1); }
+            75% { transform: translate(50px, -50px) rotate(270deg) scale(0.9); }
+            100% { transform: translate(0, 0) rotate(360deg) scale(1); }
+        }
+        
+        @keyframes fadeIn {
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Efectos de partículas */
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            background: linear-gradient(var(--gold), var(--accent));
+            opacity: 0;
+            animation: particleAnim 15s infinite;
+        }
+        
+        @keyframes particleAnim {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.7; }
+            90% { opacity: 0.7; }
+            100% { transform: translateY(-100vh) rotate(720deg); opacity: 0; }
+        }
+        
+        /* Responsive */
+        @media (max-width: 992px) {
+            .hero-section {
+                flex-direction: column;
+            }
+            
+            .photo-container {
+                width: 300px;
+                height: 300px;
+                margin-bottom: 3rem;
+            }
+            
+            .message-box {
+                margin-left: 0;
+            }
+            
+            h1 {
+                font-size: 4rem;
+            }
+            
+            .nickname {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="particles" id="particles-js"></div>
+    <div class="floating-elements" id="floating-elements"></div>
+    
+    <div class="container">
+        <div class="header">
+            <h1 class="animate__animated animate__fadeInDown">Feliz Cumpleaños</h1>
+            <h2 class="animate__animated animate__fadeIn animate__delay-1s">Para la increíble <span class="nickname animate__animated animate__tada animate__delay-2s">La Cuchusuma</span></h2>
+        </div>
+        
+        <div class="hero-section">
+            <div class="photo-container animate__animated animate__zoomIn animate__delay-1s">
+                <!-- Reemplaza con la foto real de Alison -->
+                <img src="1.png" alt="Alison La Cuchusuma" id="birthdayPhoto">
+            </div>
+            
+            <div class="message-box animate__animated animate__fadeInRight animate__delay-2s">
+                <p class="animate__animated animate__fadeIn animate__delay-3s">Querida <strong>Alison</strong>,</p>
+                <p class="animate__animated animate__fadeIn animate__delay-3s">En este día tan especial, el universo entero se alinea para celebrar tu existencia.</p>
+                <p class="animate__animated animate__fadeIn animate__delay-4s">Eres esa chispa de luz que ilumina cada espacio que pisas, esa energía contagiosa que todos admiramos.</p>
+                <p class="animate__animated animate__fadeIn animate__delay-4s">Hoy no solo celebramos otro año de vida, sino la maravillosa persona que eres y todo lo que representas.</p>
+                <p class="animate__animated animate__fadeIn animate__delay-5s">Que este nuevo capítulo esté lleno de logros, amor y momentos inolvidables.</p>
+                <span class="signature animate__animated animate__fadeIn animate__delay-5s">Con amor</span>
+            </div>
+        </div>
+        
+        <div class="text-center animate__animated animate__fadeIn animate__delay-6s">
+            <button class="interactive-btn" id="specialEffectBtn">Activar Efecto Especial</button>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Inicializar partículas
+            particlesJS('particles-js', {
+                "particles": {
+                    "number": {
+                        "value": 80,
+                        "density": {
+                            "enable": true,
+                            "value_area": 800
+                        }
+                    },
+                    "color": {
+                        "value": ["#E11D74", "#F72585", "#3A0CA3", "#FFD700"]
+                    },
+                    "shape": {
+                        "type": "circle",
+                        "stroke": {
+                            "width": 0,
+                            "color": "#000000"
+                        },
+                        "polygon": {
+                            "nb_sides": 5
+                        }
+                    },
+                    "opacity": {
+                        "value": 0.5,
+                        "random": true,
+                        "anim": {
+                            "enable": true,
+                            "speed": 1,
+                            "opacity_min": 0.1,
+                            "sync": false
+                        }
+                    },
+                    "size": {
+                        "value": 5,
+                        "random": true,
+                        "anim": {
+                            "enable": true,
+                            "speed": 2,
+                            "size_min": 1,
+                            "sync": false
+                        }
+                    },
+                    "line_linked": {
+                        "enable": true,
+                        "distance": 150,
+                        "color": "#F72585",
+                        "opacity": 0.4,
+                        "width": 1
+                    },
+                    "move": {
+                        "enable": true,
+                        "speed": 3,
+                        "direction": "none",
+                        "random": true,
+                        "straight": false,
+                        "out_mode": "out",
+                        "bounce": false,
+                        "attract": {
+                            "enable": true,
+                            "rotateX": 600,
+                            "rotateY": 1200
+                        }
+                    }
+                },
+                "interactivity": {
+                    "detect_on": "canvas",
+                    "events": {
+                        "onhover": {
+                            "enable": true,
+                            "mode": "grab"
+                        },
+                        "onclick": {
+                            "enable": true,
+                            "mode": "push"
+                        },
+                        "resize": true
+                    },
+                    "modes": {
+                        "grab": {
+                            "distance": 140,
+                            "line_linked": {
+                                "opacity": 1
+                            }
+                        },
+                        "bubble": {
+                            "distance": 400,
+                            "size": 40,
+                            "duration": 2,
+                            "opacity": 8,
+                            "speed": 3
+                        },
+                        "repulse": {
+                            "distance": 200,
+                            "duration": 0.4
+                        },
+                        "push": {
+                            "particles_nb": 4
+                        },
+                        "remove": {
+                            "particles_nb": 2
+                        }
+                    }
+                },
+                "retina_detect": true
+            });
+            
+            // Crear elementos flotantes
+            const floatingContainer = document.getElementById('floating-elements');
+            const emojis = ['🎈', '🎉', '✨', '🎁', '🎂', '🥳', '🎊', '💖', '🌸', '🌟'];
+            
+            for (let i = 0; i < 15; i++) {
+                const element = document.createElement('div');
+                element.className = 'floating-element';
+                element.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+                element.style.left = Math.random() * 100 + 'vw';
+                element.style.top = Math.random() * 100 + 'vh';
+                element.style.fontSize = (Math.random() * 2 + 1) + 'rem';
+                element.style.animationDuration = (Math.random() * 15 + 10) + 's';
+                element.style.animationDelay = Math.random() * 5 + 's';
+                floatingContainer.appendChild(element);
+            }
+            
+            // Efecto especial al hacer clic en la foto
+            const photo = document.getElementById('birthdayPhoto');
+            photo.addEventListener('click', function() {
+                // Animación de la foto
+                this.style.transform = 'scale(1.1)';
+                setTimeout(() => {
+                    this.style.transform = 'scale(1)';
+                }, 300);
+                
+                // Crear partículas adicionales
+                createParticles(30);
+            });
+            
+            // Botón de efecto especial
+            const effectBtn = document.getElementById('specialEffectBtn');
+            effectBtn.addEventListener('click', function() {
+                // Efecto de confeti
+                createParticles(100);
+                
+                // Animación de todos los elementos
+                document.querySelector('.header').classList.add('animate__animated', 'animate__tada');
+                document.querySelector('.photo-container').classList.add('animate__animated', 'animate__pulse');
+                document.querySelector('.message-box').classList.add('animate__animated', 'animate__rubberBand');
+                
+                // Cambiar color de fondo temporalmente
+                document.body.style.background = 'linear-gradient(45deg, #3A0CA3, #E11D74)';
+                setTimeout(() => {
+                    document.body.style.background = '#000';
+                }, 1000);
+                
+                // Mensaje especial
+                alert('✨🎉 ¡FELIZ CUMPLEAÑOS CUCHUSUMA! 🎉✨\n\nQue este día esté lleno de magia y alegría como tú nos llenas a nosotros.');
+            });
+            
+            // Crear partículas adicionales
+            function createParticles(count) {
+                const container = document.querySelector('.particles');
+                
+                for (let i = 0; i < count; i++) {
+                    const particle = document.createElement('div');
+                    particle.className = 'particle';
+                    particle.style.width = (Math.random() * 10 + 5) + 'px';
+                    particle.style.height = particle.style.width;
+                    particle.style.left = Math.random() * 100 + 'vw';
+                    particle.style.top = '100vh';
+                    particle.style.animationDuration = (Math.random() * 5 + 3) + 's';
+                    container.appendChild(particle);
+                    
+                    setTimeout(() => {
+                        particle.remove();
+                    }, 5000);
+                }
+            }
+            
+            // Efecto de movimiento 3D con mouse
+            document.addEventListener('mousemove', function(e) {
+                const container = document.querySelector('.container');
+                const xAxis = (window.innerWidth / 2 - e.pageX) / 25;
+                const yAxis = (window.innerHeight / 2 - e.pageY) / 25;
+                container.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
+            });
+            
+            // Resetear posición cuando el mouse sale
+            document.addEventListener('mouseleave', function() {
+                const container = document.querySelector('.container');
+                container.style.transform = 'rotateY(0deg) rotateX(0deg)';
+            });
+            
+            // Animaciones iniciales
+            setTimeout(() => {
+                document.querySelector('h2').style.animation = 'fadeIn 1s forwards';
+            }, 1000);
+        });
+    </script>
+</body>
+</html>
